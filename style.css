@@ -19,6 +19,8 @@ body {
 }
 
 .top-bar {
+  /* Always on top */
+  z-index: 999;
   padding-left: 15px;
   height: 50px;
   width: 100%;
@@ -27,6 +29,7 @@ body {
   display: flex;
   justify-content: center;
 }
+
 
 /* Font Awesome Icons */
 .fas,
@@ -58,6 +61,7 @@ body {
 .fa-trash-alt:hover {
   color: var(--secondary-col);
 }
+
 
 /* Tools */
 .active-tool {
@@ -107,6 +111,39 @@ body {
   font-size: 20px;
   user-select: none;
 }
+
+
+/* Shapes */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.shapes-container {
+  list-style-type: none;
+  margin: 0;
+
+  position: absolute;
+  top: 40px;
+  right: 1px;
+
+  opacity: 0;
+
+  transition: all 0.3s ease;
+  transform: scale(0);
+  transform-origin: 100% top;
+}
+
+.shapes-container li {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.icon-shapes-container:hover + .shapes-container, .shapes-container:hover {
+  opacity: 1;
+  transform: scale(1);
+}
+
 
 /* Custom Slider */
 .slider {

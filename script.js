@@ -6,6 +6,10 @@ const brushSize = document.getElementById('brush-size');
 const brushSlider = document.getElementById('brush-slider');
 const bucketColorBtn = document.getElementById('bucket-color');
 const eraser = document.getElementById('eraser');
+// Undo/Redo
+const undoBtn = document.getElementById('undo-stroke');
+const redoBtn = document.getElementById('redo-stroke');
+
 const clearCanvasBtn = document.getElementById('clear-canvas');
 const saveStorageBtn = document.getElementById('save-storage');
 const loadStorageBtn = document.getElementById('load-storage');
@@ -39,42 +43,11 @@ function displayBrushSize() {
   }
 }
 
-// Setting Brush Size
-brushSlider.addEventListener('change', () => {
-  currentSize = brushSlider.value;
-  displayBrushSize();
-});
-
-// Setting Brush Color
-brushColorBtn.addEventListener('change', () => {
-  isEraser = false;
-  currentColor = `#${brushColorBtn.value}`;
-});
-
-// Setting Background Color
-bucketColorBtn.addEventListener('change', () => {
-  bucketColor = `#${bucketColorBtn.value}`;
-  createCanvas();
-  restoreCanvas();
-});
-
-// // Eraser
-eraser.addEventListener('click', () => {
-  isEraser = true;
-  brushIcon.style.color = 'white';
-  eraser.style.color = 'black';
-  activeToolEl.textContent = 'Eraser';
-  currentColor = bucketColor;
-  currentSize = 50;
-  brushSlider.value = 50;
-  displayBrushSize();
-});
-
-// // Switch back to Brush
+// Switch back to Brush
 function switchToBrush() {
   isEraser = false;
   activeToolEl.textContent = 'Brush';
-  brushIcon.style.color = 'black';
+  brushIcon.style.color = '#465775';
   eraser.style.color = 'white';
   currentColor = `#${brushColorBtn.value}`;
   currentSize = 10;
@@ -90,27 +63,16 @@ function createCanvas() {
   context.fillRect(0, 0, canvas.width, canvas.height);
   body.appendChild(canvas);
   switchToBrush();
-
 }
 
-// // Clear Canvas
-clearCanvasBtn.addEventListener('click', () => {
-  createCanvas();
-  drawnArray = [];
-  // Active Tool
-  activeToolEl.textContent = 'Canvas Cleared';
-  toolDisplayDelay(TOOL_DISPLAY_DELAY);
-});
-
-// // Draw what is stored in DrawnArray
-// Can be used to create undo functionality
-function restoreCanvas() {
-  for (let i = 1; i < drawnArray.length; i++) {
+// Draw what is stored in DrawnArray
+function restoreCanvas(range=drawnArray.length) {
+  for (let i = 1; i < range; i++) {
     context.beginPath();
     context.moveTo(drawnArray[i - 1].x, drawnArray[i - 1].y);
     context.lineWidth = drawnArray[i].size;
     context.lineCap = 'round';
-    if (drawnArray[i].eraser) {
+    if (drawnArray[i].erase) {
       context.strokeStyle = bucketColor;
     } else {
       context.strokeStyle = drawnArray[i].color;
@@ -141,6 +103,45 @@ function getMousePosition(event) {
     y: event.clientY - boundaries.top,
   };
 }
+// Setting Brush Size
+brushSlider.addEventListener('change', () => {
+  currentSize = brushSlider.value;
+  displayBrushSize();
+});
+
+// Setting Brush Color
+brushColorBtn.addEventListener('change', () => {
+  isEraser = false;
+  currentColor = `#${brushColorBtn.value}`;
+});
+
+// Setting Background Color
+bucketColorBtn.addEventListener('change', () => {
+  bucketColor = `#${bucketColorBtn.value}`;
+  createCanvas();
+  restoreCanvas();
+});
+
+// // Eraser
+eraser.addEventListener('click', () => {
+  isEraser = true;
+  brushIcon.style.color = 'white';
+  eraser.style.color = '#465775';
+  activeToolEl.textContent = 'Eraser';
+  currentColor = bucketColor;
+  currentSize = 50;
+  brushSlider.value = 50;
+  displayBrushSize();
+});
+
+// // Clear Canvas
+clearCanvasBtn.addEventListener('click', () => {
+  createCanvas();
+  drawnArray = [];
+  // Active Tool
+  activeToolEl.textContent = 'Canvas Cleared';
+  toolDisplayDelay(TOOL_DISPLAY_DELAY);
+});
 
 // Mouse Down
 canvas.addEventListener('mousedown', (event) => {

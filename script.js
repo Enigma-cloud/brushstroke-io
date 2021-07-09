@@ -1,12 +1,23 @@
 const TOOL_DISPLAY_DELAY = 1500;
+const BRUSH_DEFAULT_SIZE = 10;
+const ERASER_DEFAULT_SIZE = 20;
+const SELECTED_COLOR = '#465775';
+
 const activeToolEl = document.getElementById('active-tool');
+
+// Cursor tools
+const tools = document.querySelectorAll('.cursor-tool');
+
 const brushColorBtn = document.getElementById('brush-color');
 const brushIcon = document.getElementById('brush');
 const brushSize = document.getElementById('brush-size');
 const brushSlider = document.getElementById('brush-slider');
 const bucketColorBtn = document.getElementById('bucket-color');
+
 // Create shapes
 const shapesBtn = document.getElementById('shapes');
+const squareBtn = document.getElementById('square');
+const circleBtn = document.getElementById('circle');
 
 const eraser = document.getElementById('eraser');
 const clearCanvasBtn = document.getElementById('clear-canvas');
@@ -23,9 +34,29 @@ const context = canvas.getContext('2d');
 let currentSize = 10;
 let bucketColor = '#FFFFFF';
 let currentColor = '#A51DAB';
+
+// Update Tool Indicator Problem
+// let toolBools = {  
+//   isBrush: false,
+//   isSquare: false,
+//   isEraser: false
+// }
+
 let isEraser = false;
 let isMouseDown = false;
 let drawnArray = [];
+
+// Capitalize first letter
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// Reset Tools
+function resetTools() {
+  for (const tool in toolBools) {
+    tool = false;
+  }
+}
 
 // Update/Reset Active Tool Display
 function toolDisplayDelay(time) {
@@ -46,13 +77,79 @@ function displayBrushSize() {
 function switchToBrush() {
   isEraser = false;
   activeToolEl.textContent = 'Brush';
-  brushIcon.style.color = '#465775';
+  brushIcon.style.color = SELECTED_COLOR;
   eraser.style.color = 'white';
   currentColor = `#${brushColorBtn.value}`;
-  currentSize = 10;
-  brushSlider.value = 10;
+  currentSize = BRUSH_DEFAULT_SIZE;
+  brushSlider.value = BRUSH_DEFAULT_SIZE;
   displayBrushSize();
 }
+
+// Update active tool display
+// function updateToolIndicator(currentTool=undefined) {
+
+//   if (currentTool === 'brush') {
+//     toolBools.isEraser = false;
+
+//     activeToolEl.textContent = capitalizeFirstLetter(currentTool);
+//     tools.forEach((tool) => {
+//       if (tool.id === currentTool) {
+//         tool.classList.add('selected-tool');
+//       }
+//       else {
+//         tool.classList.remove('selected-tool');
+//       }
+//     });
+
+//     currentColor = `#${brushColorBtn.value}`;
+//     currentSize = BRUSH_DEFAULT_SIZE;
+//     brushSlider.value = BRUSH_DEFAULT_SIZE;
+//     displayBrushSize();
+//   }
+//   else if (currentTool === 'square') {
+//     toolBools.isEraser = false;
+
+//     activeToolEl.textContent = capitalizeFirstLetter(currentTool);
+//     brushIcon.classList.add('selected-tool');
+//     eraser.classList.remove('selected-tool');
+
+//     currentColor = `#${brushColorBtn.value}`;
+//     currentSize = 10;
+//     brushSlider.value = BRUSH_DEFAULT_SIZE;
+//     displayBrushSize();
+//   }
+//   else if (tool === 'eraser') {
+//     toolBools.isEraser = true;
+//     toolBools.isBrush = false;
+//     toolBools.isSquare = false;
+
+//     activeToolEl.textContent = capitalizeFirstLetter(currentTool);
+//     tools.forEach((tool) => {
+//       if (tool.id === currentTool) {
+//         tool.classList.add('selected-tool');
+//       }
+//       else {
+//         tool.classList.remove('selected-tool');
+//       }
+//     });
+
+//     currentColor = `#${brushColorBtn.value}`;
+//     currentSize = ERASER_DEFAULT_SIZE;
+//     brushSlider.value = ERASER_DEFAULT_SIZE;
+//     displayBrushSize();
+//   }
+//   else {
+//     tools.forEach((tool) => {
+//       tool.classList.remove('selected-tool');
+//     });
+//     resetTools();
+
+//     currentColor = `#${brushColorBtn.value}`;
+//     currentSize = BRUSH_DEFAULT_SIZE;
+//     brushSlider.value = BRUSH_DEFAULT_SIZE;
+//     displayBrushSize();
+//   }
+// }
 
 // Create Canvas
 function createCanvas() {
@@ -64,7 +161,7 @@ function createCanvas() {
   switchToBrush();
 }
 
-// Draw what is stored in DrawnArray
+// Update DOM - Draw what is stored in DrawnArray
 function restoreCanvas(range=drawnArray.length) {
   for (let i = 1; i < range; i++) {
     context.beginPath();
@@ -121,11 +218,29 @@ bucketColorBtn.addEventListener('change', () => {
   restoreCanvas();
 });
 
-// // Eraser
+/** Create Shapes 
+ * IN PROGRESS
+*/
+// Square
+// SHOW UI INDICATION OF CHOSEN TOOL
+// squareBtn.addEventListener('click', () => {
+//   if (isSquare) {
+//     isSquare = false;
+//     canvas.style.cursor = 'crosshair';
+//   }
+//   else {
+//     isSquare = true;
+//     canvas.style.cursor = 'nw-resize';
+//   }
+//   switchToBrush();
+// });
+
+// Eraser
 eraser.addEventListener('click', () => {
   isEraser = true;
+
   brushIcon.style.color = 'white';
-  eraser.style.color = '#465775';
+  eraser.style.color = SELECTED_COLOR;
   activeToolEl.textContent = 'Eraser';
   currentColor = bucketColor;
   currentSize = 50;
@@ -133,7 +248,7 @@ eraser.addEventListener('click', () => {
   displayBrushSize();
 });
 
-// // Clear Canvas
+// Clear Canvas
 clearCanvasBtn.addEventListener('click', () => {
   createCanvas();
   drawnArray = [];
@@ -142,16 +257,17 @@ clearCanvasBtn.addEventListener('click', () => {
   toolDisplayDelay(TOOL_DISPLAY_DELAY);
 });
 
+/** Mouse Movement */
 // Mouse Down
 canvas.addEventListener('mousedown', (event) => {
   isMouseDown = true;
   const currentPosition = getMousePosition(event);
   // console.log('mouse is clicked', currentPosition);
-  context.moveTo(currentPosition.x, currentPosition.y);
-  context.beginPath();
   context.lineWidth = currentSize;
   context.lineCap = 'round';
   context.strokeStyle = currentColor;
+  context.moveTo(currentPosition.x, currentPosition.y);
+  context.beginPath();
 });
 
 // Mouse Move
@@ -159,6 +275,13 @@ canvas.addEventListener('mousemove', (event) => {
   if (isMouseDown) {
     const currentPosition = getMousePosition(event);
     // console.log('mouse is moving', currentPosition);
+    // if (isSquare) {
+    //   context.strokeRect(currentPosition.x, currentPosition.y, currentPosition.y + 1, currentPosition.x + 1);
+    // }
+    // else {
+    //   context.lineTo(currentPosition.x, currentPosition.y);
+    //   context.stroke();
+    // }
     context.lineTo(currentPosition.x, currentPosition.y);
     context.stroke();
     storeDrawn(
@@ -168,7 +291,8 @@ canvas.addEventListener('mousemove', (event) => {
       currentColor,
       isEraser,
     );
-  } else {
+  }
+  else {
     // Is it worth storing the undefined values in the global array?
     storeDrawn(undefined);
   }

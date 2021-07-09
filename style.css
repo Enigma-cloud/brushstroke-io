@@ -5,6 +5,8 @@
   --secondary-col: #EF6F6C;
   --button-col: #f7a4b8;
   --cultured-white: #d3d3d3;
+
+  --selected-col: #465775;
 }
 
 * {
@@ -21,13 +23,15 @@ body {
 .top-bar {
   /* Always on top */
   z-index: 999;
+
   padding-left: 15px;
-  height: 50px;
-  width: 100%;
+  height: 100%;
+  width: 85px;
   position: fixed;
   background-color: var(--primary-col);
   display: flex;
   justify-content: center;
+  flex-direction: column;
 }
 
 
@@ -85,22 +89,27 @@ body {
 }
 
 .tool:not(:first-child) {
-  margin-left: 8px;
+  margin-top: 8px;
+}
+
+.selected-tool {
+  background-color: var(--selected-col);
 }
 
 .brush {
   background-color: var(--primary-col);
-  height: 44px;
-  width: 345px;
+  height: 345px;
+  width: 44px;
 }
 
 .brush > * {
-  margin-left: 10px;
+  margin-top: 10px;
 }
 
 .size {
-  min-width: 40px;
-  height: 35px;
+  min-width: 35px;
+  height: 40px;
+
   position: relative;
   top: 4px;
   left: -5px;
@@ -114,9 +123,9 @@ body {
 
 
 /* Shapes */
-.dropdown {
-  position: relative;
-  display: inline-block;
+.shapes-dropdown {
+  /* position: relative;
+  display: inline-block; */
 }
 
 .shapes-container {
@@ -125,13 +134,13 @@ body {
 
   position: absolute;
   top: 40px;
-  right: 1px;
+  right: 0.1px;
 
   opacity: 0;
 
   transition: all 0.3s ease;
-  transform: scale(0);
-  transform-origin: 100% top;
+  /* transform: scale(0);
+  transform-origin: 100% top; */
 }
 
 .shapes-container li {
@@ -141,7 +150,7 @@ body {
 
 .icon-shapes-container:hover + .shapes-container, .shapes-container:hover {
   opacity: 1;
-  transform: scale(1);
+  /* transform: scale(1); */
 }
 
 
@@ -183,10 +192,13 @@ body {
 
 /* JS Color */
 .jscolor {
-  border-style: solid;
+  border-style: inset;
   border-radius: 5px;
-  height: 35px;
-  width: 120px;
+  /* Top bar */
+  /* height: 35px;
+  width: 120px; */
+  height: 45px;
+  width: 60px;
   margin-left: 3px;
   text-align: center;
   cursor: pointer;
@@ -197,7 +209,7 @@ body {
 canvas#canvas {
   background-color: rgb(177, 177, 177);
   position: absolute;
-  top: 50px;
+  left: 85px;
   cursor: crosshair;
   z-index: 10;
 }

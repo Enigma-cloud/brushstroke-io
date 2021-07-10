@@ -2,23 +2,22 @@ const TOOL_DISPLAY_DELAY = 1500;
 const BRUSH_DEFAULT_SIZE = 10;
 const ERASER_DEFAULT_SIZE = 20;
 const SELECTED_COLOR = '#465775';
-
 const activeToolEl = document.getElementById('active-tool');
-
+// =======================================================================================
 // Cursor tools
 const tools = document.querySelectorAll('.cursor-tool');
-
+// =======================================================================================
 const brushColorBtn = document.getElementById('brush-color');
 const brushIcon = document.getElementById('brush');
 const brushSize = document.getElementById('brush-size');
 const brushSlider = document.getElementById('brush-slider');
 const bucketColorBtn = document.getElementById('bucket-color');
-
+// =======================================================================================
 // Create shapes
 const shapesBtn = document.getElementById('shapes');
 const squareBtn = document.getElementById('square');
 const circleBtn = document.getElementById('circle');
-
+// =======================================================================================
 const eraser = document.getElementById('eraser');
 const clearCanvasBtn = document.getElementById('clear-canvas');
 const saveStorageBtn = document.getElementById('save-storage');
@@ -34,14 +33,14 @@ const context = canvas.getContext('2d');
 let currentSize = 10;
 let bucketColor = '#FFFFFF';
 let currentColor = '#A51DAB';
-
+// =======================================================================================
 // Update Tool Indicator Problem
 // let toolBools = {  
 //   isBrush: false,
 //   isSquare: false,
 //   isEraser: false
 // }
-
+// =======================================================================================
 let isEraser = false;
 let isMouseDown = false;
 let drawnArray = [];
@@ -85,6 +84,7 @@ function switchToBrush() {
   displayBrushSize();
 }
 
+// =======================================================================================
 // Update active tool display
 // function updateToolIndicator(currentTool=undefined) {
 
@@ -150,11 +150,12 @@ function switchToBrush() {
 //     displayBrushSize();
 //   }
 // }
+// =======================================================================================
 
 // Create Canvas
 function createCanvas() {
   canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight - 50;
+  canvas.height = window.innerHeight;
   context.fillStyle = bucketColor;
   context.fillRect(0, 0, canvas.width, canvas.height);
   body.appendChild(canvas);
@@ -178,7 +179,7 @@ function restoreCanvas(range=drawnArray.length) {
   }
 }
 
-// // Store Drawn Lines in DrawnArray
+// Store Drawn Lines in DrawnArray
 function storeDrawn(x, y, size, color, erase) {
   const line = {
     x,
@@ -199,6 +200,8 @@ function getMousePosition(event) {
     y: event.clientY - boundaries.top,
   };
 }
+
+
 // Setting Brush Size
 brushSlider.addEventListener('change', () => {
   currentSize = brushSlider.value;
@@ -218,6 +221,7 @@ bucketColorBtn.addEventListener('change', () => {
   restoreCanvas();
 });
 
+// =======================================================================================
 /** Create Shapes 
  * IN PROGRESS
 */
@@ -234,6 +238,7 @@ bucketColorBtn.addEventListener('change', () => {
 //   }
 //   switchToBrush();
 // });
+// =======================================================================================
 
 // Eraser
 eraser.addEventListener('click', () => {
@@ -274,6 +279,7 @@ canvas.addEventListener('mousedown', (event) => {
 canvas.addEventListener('mousemove', (event) => {
   if (isMouseDown) {
     const currentPosition = getMousePosition(event);
+    // =======================================================================================
     // console.log('mouse is moving', currentPosition);
     // if (isSquare) {
     //   context.strokeRect(currentPosition.x, currentPosition.y, currentPosition.y + 1, currentPosition.x + 1);
@@ -282,6 +288,7 @@ canvas.addEventListener('mousemove', (event) => {
     //   context.lineTo(currentPosition.x, currentPosition.y);
     //   context.stroke();
     // }
+    // =======================================================================================
     context.lineTo(currentPosition.x, currentPosition.y);
     context.stroke();
     storeDrawn(
@@ -303,6 +310,23 @@ canvas.addEventListener('mouseup', () => {
   isMouseDown = false;
   // console.log('mouse is unclicked');
 });
+
+// =======================================================================================
+// Open Tool Settings
+const modal = document.getElementById('tools-modal');
+
+tools.forEach((tool) => {
+  tool.addEventListener('contextmenu', () => {
+    modal.classList.add('show-modal');
+  });
+});
+
+window.addEventListener('click', (e) => {
+  if (e.target == modal) {
+    modal.classList.remove('show-modal');
+  }
+});
+// =======================================================================================
 
 // Save to Local Storage
 saveStorageBtn.addEventListener('click', () => {

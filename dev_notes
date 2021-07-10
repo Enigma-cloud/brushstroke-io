@@ -1,0 +1,22 @@
+Project Customization Tasks:
+    Figuring how the Tool Indicator will be updated when selecting these tools:
+    - Brush
+    - Create shapes (Best way to keep track of selected btns? Package into a array of booleans?)
+    - Eraser
+
+    *Changing UI:
+    - Change top-bar into a sidebar [B]
+    - Create hover side panel to place colour picker & brush slider?
+        - Do the same for the fill bucket?
+    - Fix canvas height issue
+    - Implement toast notifications for bottom layer tools instead  of using the tool Indicator
+
+    CURRENTLY WORKING ON THE CSS OF THE TOOL SETTINGS:
+        - Temporarily activated by right clicking the eraser button
+
+Ideas:
+- kleki
+- jspaint
+
+Work in progress separator:
+// =======================================================================================

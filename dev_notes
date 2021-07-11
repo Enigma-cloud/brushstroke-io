@@ -5,18 +5,41 @@ Project Customization Tasks:
     - Eraser
 
     *Changing UI:
-    - Change top-bar into a sidebar [B]
-    - Create hover side panel to place colour picker & brush slider?
-        - Do the same for the fill bucket?
-    - Fix canvas height issue
+    x Change top-bar into a sidebar [B]
+    x Create hover side panel to place colour picker & brush slider
+    x Fix canvas height issue
     - Implement toast notifications for bottom layer tools instead  of using the tool Indicator
 
-    CURRENTLY WORKING ON THE CSS OF THE TOOL SETTINGS:
-        - Temporarily activated by right clicking the eraser button
+    CURRENTLY WORKING ON THE CSS OF THE STOOL SETTINGS:
+        x Completed Tool Modal styling
+        x Fix sizing issue (Active Tool Indicator)
+        x Fix Bucket button styling issues (i.e. indicating selected button)
+        x Adapt Modal Content relevant to the selected tool
+
+    CURRENTLY WORKING ON THE BOTTOM LAYER TOOLS
+        - Implement Toast Notifications when bottom layer tool is executed
 
 Ideas:
-- kleki
+- kleki11111111111111
 - jspaint
 
 Work in progress separator:
 // =======================================================================================
+<!-- Shapes -->
+        <!-- <div class="shapes-dropdown tool">
+            <div class="icon-shapes-container">
+                <i class="fas fa-shapes" id="shapes" title="Create Shapes"></i>
+            </div>
+            <ul class="shapes-container">
+                <li>
+                    <div class="square-container">
+                        <i class="far fa-square cursor-tool" id="square" title="Square"></i>
+                    </div>
+                </li>
+                <li>
+                    <div class="circle-container">
+                        <i class="far fa-circle" id="circle" title="Circle"></i>
+                    </div>
+                </li>
+            </ul>
+        </div> -->

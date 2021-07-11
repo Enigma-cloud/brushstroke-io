@@ -1,24 +1,31 @@
 const TOOL_DISPLAY_DELAY = 1500;
 const BRUSH_DEFAULT_SIZE = 10;
 const ERASER_DEFAULT_SIZE = 20;
+const NEUTRAL_COLOR = 'white'
 const SELECTED_COLOR = '#465775';
-const activeToolEl = document.getElementById('active-tool');
-// =======================================================================================
-// Cursor tools
+
+// Tools
+const activeToolEl = document.getElementById('active-tool'); 
 const tools = document.querySelectorAll('.cursor-tool');
-// =======================================================================================
 const brushColorBtn = document.getElementById('brush-color');
 const brushIcon = document.getElementById('brush');
 const brushSize = document.getElementById('brush-size');
 const brushSlider = document.getElementById('brush-slider');
 const bucketColorBtn = document.getElementById('bucket-color');
+const bucketBtn = document.getElementById('bucket');
+const eraser = document.getElementById('eraser');
+// Modal Content
+const modal = document.getElementById('tools-modal');
+const settingTitle = document.getElementById('setting-title');
+const settingHint = document.getElementById('setting-hint');
+const colorPicker = document.getElementById('color-picker');
+const sizePicker = document.getElementById('size-picker');
 // =======================================================================================
 // Create shapes
 const shapesBtn = document.getElementById('shapes');
 const squareBtn = document.getElementById('square');
 const circleBtn = document.getElementById('circle');
 // =======================================================================================
-const eraser = document.getElementById('eraser');
 const clearCanvasBtn = document.getElementById('clear-canvas');
 const saveStorageBtn = document.getElementById('save-storage');
 const loadStorageBtn = document.getElementById('load-storage');
@@ -42,6 +49,7 @@ let currentColor = '#A51DAB';
 // }
 // =======================================================================================
 let isEraser = false;
+let isBucket = false;
 let isMouseDown = false;
 let drawnArray = [];
 
@@ -59,11 +67,13 @@ function resetTools() {
 
 // Update/Reset Active Tool Display
 function toolDisplayDelay(time) {
-  setTimeout(switchToBrush, time)
+  console.log(activeToolEl.textContent);
+  setTimeout(updateSelectedTool('brush'), time);
 };
 
 // Formatting Brush Size
 function displayBrushSize() {
+  // Format with '0' for numbers lower than 10
   if (brushSlider.value < 10) {
     brushSize.textContent = `0${brushSlider.value}`
   }
@@ -72,12 +82,80 @@ function displayBrushSize() {
   }
 }
 
+// Update Selected Tool 
+function updateSelectedTool(tool) {
+  // Update Button & Settings Style/Content
+  if (tool === 'brush') {
+    isEraser = false;
+    isBucket = false;
+  
+    activeToolEl.textContent = 'Brush';
+    settingHint.textContent = 'Hint: Use the color picker & slider to change the brush color and size respectively.';
+
+    brushIcon.style.color = SELECTED_COLOR;
+    eraser.style.color = NEUTRAL_COLOR;
+    bucketBtn.style.color = NEUTRAL_COLOR;
+
+    currentColor = `#${brushColorBtn.value}`;
+    currentSize = BRUSH_DEFAULT_SIZE;
+    brushSlider.value = BRUSH_DEFAULT_SIZE;
+
+    sizePicker.style.display = 'flex';
+    colorPicker.style.display = 'flex';
+    brushColorBtn.style.display = 'flex';
+    bucketColorBtn.style.display = 'none';
+
+    displayBrushSize();
+  }
+  else if (tool === 'eraser') {
+    isEraser = true;
+    isBucket = false;
+    
+    activeToolEl.textContent = 'Eraser';
+    settingHint.textContent = 'Hint: Use the slider to change the eraser size.';
+
+    brushIcon.style.color = NEUTRAL_COLOR;
+    eraser.style.color = SELECTED_COLOR;
+    bucketBtn.style.color = NEUTRAL_COLOR;
+
+    currentColor = bucketColor;
+    currentSize = ERASER_DEFAULT_SIZE;
+    brushSlider.value = ERASER_DEFAULT_SIZE;
+
+    sizePicker.style.display = 'flex';
+    colorPicker.style.display = 'none';
+
+    displayBrushSize();
+  }
+  else if (tool === 'bucket') {
+    isEraser = false;
+    isBucket = true;
+
+    activeToolEl.textContent = 'Bucket';
+    settingHint.textContent = 'Hint: Use the color picker to change the background color.';
+
+    brushIcon.style.color = NEUTRAL_COLOR;
+    eraser.style.color = NEUTRAL_COLOR;
+    bucketBtn.style.color = SELECTED_COLOR;
+
+    sizePicker.style.display = 'none';
+    colorPicker.style.display = 'flex';
+    brushColorBtn.style.display = 'none';
+    bucketColorBtn.style.display = 'flex';
+  }
+  else {
+    return "Tool not found or incorrect tool id"
+  }
+}
+
 // Switch back to Brush
 function switchToBrush() {
   isEraser = false;
+  isBucket = false;
+
   activeToolEl.textContent = 'Brush';
   brushIcon.style.color = SELECTED_COLOR;
-  eraser.style.color = 'white';
+  eraser.style.color = NEUTRAL_COLOR;
   currentColor = `#${brushColorBtn.value}`;
   currentSize = BRUSH_DEFAULT_SIZE;
   brushSlider.value = BRUSH_DEFAULT_SIZE;
@@ -159,7 +237,6 @@ function createCanvas() {
   context.fillStyle = bucketColor;
   context.fillRect(0, 0, canvas.width, canvas.height);
   body.appendChild(canvas);
-  switchToBrush();
 }
 
 // Update DOM - Draw what is stored in DrawnArray
@@ -201,6 +278,7 @@ function getMousePosition(event) {
   };
 }
 
+/** Event Listeners */
 
 // Setting Brush Size
 brushSlider.addEventListener('change', () => {
@@ -239,19 +317,6 @@ bucketColorBtn.addEventListener('change', () => {
 //   switchToBrush();
 // });
 // =======================================================================================
-
-// Eraser
-eraser.addEventListener('click', () => {
-  isEraser = true;
-
-  brushIcon.style.color = 'white';
-  eraser.style.color = SELECTED_COLOR;
-  activeToolEl.textContent = 'Eraser';
-  currentColor = bucketColor;
-  currentSize = 50;
-  brushSlider.value = 50;
-  displayBrushSize();
-});
 
 // Clear Canvas
 clearCanvasBtn.addEventListener('click', () => {
@@ -313,10 +378,10 @@ canvas.addEventListener('mouseup', () => {
 
 // =======================================================================================
 // Open Tool Settings
-const modal = document.getElementById('tools-modal');
-
 tools.forEach((tool) => {
-  tool.addEventListener('contextmenu', () => {
+  tool.addEventListener('click', () => {
+    settingTitle.textContent = `${capitalizeFirstLetter(tool.id)} Settings`;
+    updateSelectedTool(tool.id);
     modal.classList.add('show-modal');
   });
 });
@@ -324,6 +389,10 @@ tools.forEach((tool) => {
 window.addEventListener('click', (e) => {
   if (e.target == modal) {
     modal.classList.remove('show-modal');
+
+    if (!isEraser) {
+      updateSelectedTool('brush');
+    }
   }
 });
 // =======================================================================================
@@ -370,9 +439,6 @@ downloadBtn.addEventListener('click', () => {
   activeToolEl.textContent = 'Image File Saved';
   toolDisplayDelay(TOOL_DISPLAY_DELAY);
 });
-
-// Event Listener
-brushIcon.addEventListener('click', switchToBrush);
 
 // On Load
 createCanvas();

@@ -15,40 +15,14 @@
         <div class="active-tool">
             <span id="active-tool" title="Active Tool">Brush</span>
         </div>
-        <!-- Eraser -->
-        <div class="tool">
-            <i class="fas fa-eraser cursor-tool" id="eraser" title="Eraser"></i>
-        </div>
-        <!-- Shapes -->
-        <div class="shapes-dropdown tool">
-            <div class="icon-shapes-container">
-                <i class="fas fa-shapes" id="shapes" title="Create Shapes"></i>
-            </div>
-            <ul class="shapes-container">
-                <li>
-                    <div class="square-container">
-                        <i class="far fa-square cursor-tool" id="square" title="Square"></i>
-                    </div>
-                </li>
-                <li>
-                    <div class="circle-container">
-                        <i class="far fa-circle" id="circle" title="Circle"></i>
-                    </div>
-                </li>
-            </ul>
-        </div>
+        
         <!-- Brush -->
         <div class="brush tool">
             <i class="fas fa-brush cursor-tool" id="brush" title="Brush"></i>
-            <input class="jscolor" id="brush-color" value="56e39f">
-            <span class="size" id="brush-size" title="Brush Size">10</span>
-            <input type="range" min="1" max="50" value="10" class="slider" id="brush-slider">
+            <i class="fas fa-fill-drip cursor-tool" id="bucket" title="Background Color"></i>
+            <i class="fas fa-eraser cursor-tool" id="eraser" title="Eraser"></i>
         </div>
-        <!-- Bucket -->
-        <div class="bucket tool">
-            <i class="fas fa-fill-drip" title="Background Color"></i>
-            <input class="jscolor" id="bucket-color" value="ffffff">
-        </div>
+        
         <!-- Clear Canvas -->
         <div class="tool">
             <i class="fas fa-paint-roller" id="clear-canvas" title="Clear"></i>
@@ -77,13 +51,17 @@
     <div class="modal" id="tools-modal">
         <div class="modal-content" id="tool-settings">
             <div class="modal-content-title">
-                <h2>Tool Settings</h1>
+                <h2 id="setting-title">Tool Settings</h1>
             </div>
             <div class="modal-layer">
-                <i class="fas fa-brush cursor-tool" id="brush" title="Brush"></i>
-            <input class="jscolor" id="brush-color" value="56e39f">
+                <p id="setting-hint"></p>
             </div>
-            <div class="modal-layer">
+            <div class="modal-layer" id="color-picker">
+                <input class="jscolor" id="brush-color" value="56e39f">
+                <input class="jscolor" id="bucket-color" value="ffffff">
+            </div>
+            <div class="modal-layer" id="size-picker">
+                <!-- Brush Size -->
                 <span class="size" id="brush-size" title="Brush Size">10</span>
                 <input type="range" min="1" max="50" value="10" class="slider" id="brush-slider">
             </div>

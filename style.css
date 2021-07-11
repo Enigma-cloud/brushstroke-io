@@ -20,9 +20,19 @@ body {
   overflow: hidden;
 }
 
-h1 {
+h1, h2, p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  color: #ffffff;
+
   margin: 0;
   padding: 0;
+}
+
+p {
+  white-space: pre-wrap;
 }
 
 .top-bar {
@@ -35,7 +45,7 @@ h1 {
 
   padding-left: 15px;
   height: 100%;
-  width: 85px;
+  width: 88px;
   position: fixed;
   background-color: var(--primary-col);
 
@@ -48,13 +58,14 @@ h1 {
 .modal {
   display: none;
   position: fixed;
+  background-color: rgb(0, 0, 0, 0.4);
+
   top: 0;
   left: 85px;
   z-index: 10;
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgb(0, 0, 0, 0.4);
   animation: modalopen 0.4s;
 }
 
@@ -82,31 +93,31 @@ h1 {
   z-index: 1;
   height: 30%;
   width: 25%;
-  top: 145px;
-  /* left: 75px; */
+  top: 150px;
   left: -25%;
 
   margin: auto;
   padding: 5px;
-  border-radius: 10px;
+  border-radius: 0 10px 10px 0;
   animation: slide-in-left 0.6s forwards;
   animation-delay: 0.2s;
 }
 
 @keyframes slide-in-left {
   100% { 
-    left: 81px;
+    left: 85px;
     z-index: 11;
   }
 }
 
 .modal-layer {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
 
   height: 100vh;
-  margin: 10px;
+  margin: 5px;
+  margin-left: 10px;
 }
 
 .modal-content-title {
@@ -120,10 +131,9 @@ h1 {
   margin: 5px;
 }
 
-.modal-content-title h2 {
-  color: #ffffff;
+.modal-content-title h2, p {
+  margin: 5px;
 }
-
 
 
 /* Font Awesome Icons */
@@ -146,11 +156,10 @@ h1 {
   filter: brightness(90%);
 }
 
-.fas.fa-fill-drip {
-  /* Negate hover effect as it shouldn't be clicked*/
+/* .fas.fa-fill-drip {
   filter: brightness(100%);
   cursor: default;
-}
+} */
 
 .fa-paint-roller:hover,
 .fa-trash-alt:hover {
@@ -161,14 +170,14 @@ h1 {
 /* Tools */
 .active-tool {
   position: absolute;
-  top: 9px;
-  left: 5px;
+  top: 20px;
+  left: 10px;
 }
 
 .active-tool > span {
   background-color: var(--secondary-col);
   border-radius: 5px;
-  padding: 2.5px 16px;
+  padding: 2.5px 10px;
   color: white;
   font-size: 20px;
   user-select: none;
@@ -189,8 +198,8 @@ h1 {
 
 .brush {
   background-color: var(--primary-col);
-  height: 345px;
-  width: 44px;
+  height: 300px;
+  width: 90%;
 }
 
 .brush > * {
@@ -250,7 +259,6 @@ h1 {
   -webkit-appearance: none;
   border-radius: 3px;
   position: relative;
-  left: -8px;
   width: 100px;
   height: 10px;
   background: var(--cultured-white);
@@ -286,8 +294,8 @@ h1 {
   border-style: inset;
   border-radius: 5px;
   height: 45px;
-  width: 60px;
-  margin-left: 3px;
+  width: 70%;
+
   text-align: center;
   cursor: pointer;
   outline: none;

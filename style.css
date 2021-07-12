@@ -156,11 +156,6 @@ p {
   filter: brightness(90%);
 }
 
-/* .fas.fa-fill-drip {
-  filter: brightness(100%);
-  cursor: default;
-} */
-
 .fa-paint-roller:hover,
 .fa-trash-alt:hover {
   color: var(--secondary-col);
@@ -221,9 +216,37 @@ p {
   user-select: none;
 }
 
-/* #download i {
-  padding-top: 5px;
-} */
+.tools-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  margin: 0;
+  padding: 0;
+}
+
+.chevron-menu {
+  background-color: transparent;
+  opacity: 0.8;
+  font-size: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown-show {
+  display: block;
+  animation: fadeIn 1s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
 
 /* ======================================================================================= */
 /* Shapes */

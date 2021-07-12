@@ -296,7 +296,10 @@ canvas.addEventListener('mouseup', () => {
 /** Bottom Tools*/
 // Clear Canvas
 clearCanvasBtn.addEventListener('click', () => {
-  try { 
+  try {
+    if (!confirm('Are you sure you want to clear the canvas?')) {
+      return false;
+    }
     createCanvas();
     drawnArray = [];
     createNotification('Canvas Cleared', 'success');
@@ -358,6 +361,27 @@ upperTools.forEach((tool) => {
     modal.classList.add('show-modal');
   });
 });
+
+// System Tools Dropdown
+const chevronMenu = document.getElementById('chevron-menu');
+const systemTools = document.getElementById('system-tools');
+let isChevronOpen = false;
+
+chevronMenu.addEventListener('click', () => {
+  if (isChevronOpen) {
+    isChevronOpen = false;
+    chevronMenu.classList.remove('fa-chevron-up');
+    chevronMenu.classList.add('fa-chevron-down');
+    systemTools.classList.remove('dropdown-show');
+  }
+  else {
+    isChevronOpen = true;
+    chevronMenu.classList.remove('fa-chevron-down');
+    chevronMenu.classList.add('fa-chevron-up');
+    systemTools.classList.add('dropdown-show');
+  }
+});
+
 
 window.addEventListener('click', (e) => {
   if (e.target == modal) {

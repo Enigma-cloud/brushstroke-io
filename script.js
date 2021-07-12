@@ -1,4 +1,4 @@
-const TOOL_DISPLAY_DELAY = 1500;
+const TOAST_REMOVE_DELAY = 3000;
 const BRUSH_DEFAULT_SIZE = 10;
 const ERASER_DEFAULT_SIZE = 20;
 const NEUTRAL_COLOR = 'white'
@@ -6,7 +6,8 @@ const SELECTED_COLOR = '#465775';
 
 // Tools
 const activeToolEl = document.getElementById('active-tool'); 
-const tools = document.querySelectorAll('.cursor-tool');
+const upperTools = document.querySelectorAll('.cursor-tool');
+const bottomTools = document.querySelectorAll('.system-tool');
 const brushColorBtn = document.getElementById('brush-color');
 const brushIcon = document.getElementById('brush');
 const brushSize = document.getElementById('brush-size');
@@ -20,6 +21,8 @@ const settingTitle = document.getElementById('setting-title');
 const settingHint = document.getElementById('setting-hint');
 const colorPicker = document.getElementById('color-picker');
 const sizePicker = document.getElementById('size-picker');
+// Toast Notification
+const toasts = document.getElementById('toasts');
 // =======================================================================================
 // Create shapes
 const shapesBtn = document.getElementById('shapes');
@@ -39,7 +42,7 @@ canvas.id = 'canvas';
 const context = canvas.getContext('2d');
 let currentSize = 10;
 let bucketColor = '#FFFFFF';
-let currentColor = '#A51DAB';
+let currentColor = '#4CFFA4';
 // =======================================================================================
 // Update Tool Indicator Problem
 // let toolBools = {  
@@ -51,25 +54,29 @@ let currentColor = '#A51DAB';
 let isEraser = false;
 let isBucket = false;
 let isMouseDown = false;
+
 let drawnArray = [];
 
+//** Functions */
 // Capitalize first letter
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-// Reset Tools
-function resetTools() {
-  for (const tool in toolBools) {
-    tool = false;
+// Create pop-up status notifications
+function createNotification(message=null, type=null) {
+  const notif = document.createElement('div');
+  notif.classList.add('toast')
+  if (type != null) {
+    notif.classList.add(type)
   }
-}
+  notif.innerText = message ? message : "No message";
+  toasts.appendChild(notif)
 
-// Update/Reset Active Tool Display
-function toolDisplayDelay(time) {
-  console.log(activeToolEl.textContent);
-  setTimeout(updateSelectedTool('brush'), time);
-};
+  setTimeout(() => {
+      notif.remove()
+  }, TOAST_REMOVE_DELAY)
+}
 
 // Formatting Brush Size
 function displayBrushSize() {
@@ -147,88 +154,6 @@ function updateSelectedTool(tool) {
     return "Tool not found or incorrect tool id"
   }
 }
-
-// Switch back to Brush
-function switchToBrush() {
-  isEraser = false;
-  isBucket = false;
-
-  activeToolEl.textContent = 'Brush';
-  brushIcon.style.color = SELECTED_COLOR;
-  eraser.style.color = NEUTRAL_COLOR;
-  currentColor = `#${brushColorBtn.value}`;
-  currentSize = BRUSH_DEFAULT_SIZE;
-  brushSlider.value = BRUSH_DEFAULT_SIZE;
-  displayBrushSize();
-}
-
-// =======================================================================================
-// Update active tool display
-// function updateToolIndicator(currentTool=undefined) {
-
-//   if (currentTool === 'brush') {
-//     toolBools.isEraser = false;
-
-//     activeToolEl.textContent = capitalizeFirstLetter(currentTool);
-//     tools.forEach((tool) => {
-//       if (tool.id === currentTool) {
-//         tool.classList.add('selected-tool');
-//       }
-//       else {
-//         tool.classList.remove('selected-tool');
-//       }
-//     });
-
-//     currentColor = `#${brushColorBtn.value}`;
-//     currentSize = BRUSH_DEFAULT_SIZE;
-//     brushSlider.value = BRUSH_DEFAULT_SIZE;
-//     displayBrushSize();
-//   }
-//   else if (currentTool === 'square') {
-//     toolBools.isEraser = false;
-
-//     activeToolEl.textContent = capitalizeFirstLetter(currentTool);
-//     brushIcon.classList.add('selected-tool');
-//     eraser.classList.remove('selected-tool');
-
-//     currentColor = `#${brushColorBtn.value}`;
-//     currentSize = 10;
-//     brushSlider.value = BRUSH_DEFAULT_SIZE;
-//     displayBrushSize();
-//   }
-//   else if (tool === 'eraser') {
-//     toolBools.isEraser = true;
-//     toolBools.isBrush = false;
-//     toolBools.isSquare = false;
-
-//     activeToolEl.textContent = capitalizeFirstLetter(currentTool);
-//     tools.forEach((tool) => {
-//       if (tool.id === currentTool) {
-//         tool.classList.add('selected-tool');
-//       }
-//       else {
-//         tool.classList.remove('selected-tool');
-//       }
-//     });
-
-//     currentColor = `#${brushColorBtn.value}`;
-//     currentSize = ERASER_DEFAULT_SIZE;
-//     brushSlider.value = ERASER_DEFAULT_SIZE;
-//     displayBrushSize();
-//   }
-//   else {
-//     tools.forEach((tool) => {
-//       tool.classList.remove('selected-tool');
-//     });
-//     resetTools();
-
-//     currentColor = `#${brushColorBtn.value}`;
-//     currentSize = BRUSH_DEFAULT_SIZE;
-//     brushSlider.value = BRUSH_DEFAULT_SIZE;
-//     displayBrushSize();
-//   }
-// }
-// =======================================================================================
 
 // Create Canvas
 function createCanvas() {
@@ -318,15 +243,6 @@ bucketColorBtn.addEventListener('change', () => {
 // });
 // =======================================================================================
 
-// Clear Canvas
-clearCanvasBtn.addEventListener('click', () => {
-  createCanvas();
-  drawnArray = [];
-  // Active Tool
-  activeToolEl.textContent = 'Canvas Cleared';
-  toolDisplayDelay(TOOL_DISPLAY_DELAY);
-});
-
 /** Mouse Movement */
 // Mouse Down
 canvas.addEventListener('mousedown', (event) => {
@@ -376,9 +292,66 @@ canvas.addEventListener('mouseup', () => {
   // console.log('mouse is unclicked');
 });
 
-// =======================================================================================
-// Open Tool Settings
-tools.forEach((tool) => {
+
+/** Bottom Tools*/
+// Clear Canvas
+clearCanvasBtn.addEventListener('click', () => {
+  try { 
+    createCanvas();
+    drawnArray = [];
+    createNotification('Canvas Cleared', 'success');
+  }
+  catch(err) {
+    createNotification(err, 'error');
+  }
+});
+
+// Save to Local Storage
+saveStorageBtn.addEventListener('click', () => {
+  try {
+    localStorage.setItem('savedCanvas', JSON.stringify(drawnArray))
+    createNotification('Canvas Saved', 'success');
+  }
+  catch(err) {
+    createNotification(err, 'error');
+  }
+});
+
+// Load from Local Storage
+loadStorageBtn.addEventListener('click', () => {
+  if (localStorage.getItem('savedCanvas')) {
+    drawnArray = JSON.parse(localStorage.savedCanvas);
+
+    createNotification('Canvas Loaded', 'success');
+  }
+  else {
+    createNotification('No Saved Canvas', 'error');
+  }
+});
+
+// Clear Local Storage
+clearStorageBtn.addEventListener('click', () => {
+  if (!confirm('Are you sure you want to delete your local save?')) {
+    return false;
+  }
+  // Best to use removeItem instead of clear (clear will wipe all data stored in local storage)
+  localStorage.removeItem('savedCanvas');
+  createNotification('Deleted Local Save', 'success');
+});
+
+// Download Image
+downloadBtn.addEventListener('click', () => {
+  if (!confirm('Export canvas as a JPG image?')) {
+    return false;
+  }
+  // Download drawing as an image file to be downloaded from the browser
+  downloadBtn.href = canvas.toDataURL('image/jpeg', 1);
+  downloadBtn.download = 'brushstroke-example.jpeg';
+  createNotification('Image File Created', 'success');
+});
+
+// Modal Tool Settings
+upperTools.forEach((tool) => {
   tool.addEventListener('click', () => {
     settingTitle.textContent = `${capitalizeFirstLetter(tool.id)} Settings`;
     updateSelectedTool(tool.id);
@@ -394,50 +367,6 @@ window.addEventListener('click', (e) => {
       updateSelectedTool('brush');
     }
   }
-});
-// =======================================================================================
-
-// Save to Local Storage
-saveStorageBtn.addEventListener('click', () => {
-  localStorage.setItem('savedCanvas', JSON.stringify(drawnArray));
-  // Active Tool
-  activeToolEl.textContent = 'Canvas Saved';
-  toolDisplayDelay(TOOL_DISPLAY_DELAY);
-});
-
-// Load from Local Storage
-loadStorageBtn.addEventListener('click', () => {
-  if (localStorage.getItem('savedCanvas')) {
-    drawnArray = JSON.parse(localStorage.savedCanvas);
-
-  // Active Tool
-    activeToolEl.textContent = 'Canvas Loaded';
-    toolDisplayDelay(TOOL_DISPLAY_DELAY);
-  }
-  else {
-    activeToolEl.textContent = 'No Saved Canvas';
-    toolDisplayDelay(TOOL_DISPLAY_DELAY);
-  }
-
-});
-
-// Clear Local Storage
-clearStorageBtn.addEventListener('click', () => {
-  // Best to use removeItem instead of clear (clear will wipe all data stored in local storage)
-  localStorage.removeItem('savedCanvas');
-  // Active Tool
-  activeToolEl.textContent = 'Local Storage Cleared';
-  toolDisplayDelay(TOOL_DISPLAY_DELAY);
-});
-
-// Download Image
-downloadBtn.addEventListener('click', () => {
-  // Download drawing as an image file to be downloaded from the browser
-  downloadBtn.href = canvas.toDataURL('image/jpeg', 1);
-  downloadBtn.download = 'brushstroke-example.jpeg';
-  // Active Tool
-  activeToolEl.textContent = 'Image File Saved';
-  toolDisplayDelay(TOOL_DISPLAY_DELAY);
 });
 
 // On Load

@@ -16,34 +16,24 @@
             <span id="active-tool" title="Active Tool">Brush</span>
         </div>
         
-        <!-- Brush -->
+        <!-- Cursor Tools -->
         <div class="brush tool">
             <i class="fas fa-brush cursor-tool" id="brush" title="Brush"></i>
             <i class="fas fa-fill-drip cursor-tool" id="bucket" title="Background Color"></i>
             <i class="fas fa-eraser cursor-tool" id="eraser" title="Eraser"></i>
         </div>
         
-        <!-- Clear Canvas -->
-        <div class="tool">
-            <i class="fas fa-paint-roller" id="clear-canvas" title="Clear"></i>
-        </div>
-        <!-- Save Local Storage -->
-        <div class="tool">
-            <i class="fas fa-download" id="save-storage" title="Save Local Storage"></i>
-        </div>
-        <!-- Load Local Storage -->
-        <div class="tool">
-            <i class="fas fa-upload" id="load-storage" title="Load Local Storage"></i>
-        </div>
-        <!-- Clear Local Storage -->
-        <div class="tool">
-            <i class="fas fa-trash-alt" id="clear-storage" title="Clear Local Storage"></i>
-        </div>
-        <!-- Download Image -->
-        <div class="tool">
-            <a id="download">
-                <i class="far fa-save" title="Save Image File"></i>
-            </a>
+        <!-- System Tools -->
+        <div class="brush tool">
+            <i class="fas fa-paint-roller system-tool" id="clear-canvas" title="Clear"></i>
+            <i class="fas fa-download system-tool" id="save-storage" title="Save Local Storage"></i>
+            <i class="fas fa-upload system-tool" id="load-storage" title="Load Local Storage"></i>
+            <i class="fas fa-trash-alt system-tool" id="clear-storage" title="Clear Local Storage"></i>
+            <div class="brush">
+                <a class="system-tool" id="download">
+                    <i class="far fa-save" title="Save Image File"></i>
+                </a>
+            </div>
         </div>
     </div>
 
@@ -57,7 +47,7 @@
                 <p id="setting-hint"></p>
             </div>
             <div class="modal-layer" id="color-picker">
-                <input class="jscolor" id="brush-color" value="56e39f">
+                <input class="jscolor" id="brush-color" value="4CFFA4">
                 <input class="jscolor" id="bucket-color" value="ffffff">
             </div>
             <div class="modal-layer" id="size-picker">
@@ -66,6 +56,10 @@
                 <input type="range" min="1" max="50" value="10" class="slider" id="brush-slider">
             </div>
         </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toasts">
     </div>
 
     <!-- Mobile Message -->

@@ -1,14 +1,14 @@
 Project Customization Tasks:
-    Figuring how the Tool Indicator will be updated when selecting these tools:
+    *Figuring how the Tool Indicator will be updated when selecting these tools:
     - Brush
     - Create shapes (Best way to keep track of selected btns? Package into a array of booleans?)
     - Eraser
 
-    *Changing UI:
+    Changing UI:
     x Change top-bar into a sidebar [B]
     x Create hover side panel to place colour picker & brush slider
     x Fix canvas height issue
-    - Implement toast notifications for bottom layer tools instead  of using the tool Indicator
+    x Implement toast notifications for bottom layer tools instead  of using the tool Indicator
 
     CURRENTLY WORKING ON THE CSS OF THE STOOL SETTINGS:
         x Completed Tool Modal styling
@@ -17,10 +17,10 @@ Project Customization Tasks:
         x Adapt Modal Content relevant to the selected tool
 
     CURRENTLY WORKING ON THE BOTTOM LAYER TOOLS
-        - Implement Toast Notifications when bottom layer tool is executed
+        x Implement Toast Notifications when bottom layer tool is executed
 
 Ideas:
-- kleki11111111111111
+- kleki
 - jspaint
 
 Work in progress separator:
@@ -43,3 +43,69 @@ Work in progress separator:
                 </li>
             </ul>
         </div> -->
+
+// Update active tool display
+// function updateToolIndicator(currentTool=undefined) {
+
+//   if (currentTool === 'brush') {
+//     toolBools.isEraser = false;
+
+//     activeToolEl.textContent = capitalizeFirstLetter(currentTool);
+//     tools.forEach((tool) => {
+//       if (tool.id === currentTool) {
+//         tool.classList.add('selected-tool');
+//       }
+//       else {
+//         tool.classList.remove('selected-tool');
+//       }
+//     });
+
+//     currentColor = `#${brushColorBtn.value}`;
+//     currentSize = BRUSH_DEFAULT_SIZE;
+//     brushSlider.value = BRUSH_DEFAULT_SIZE;
+//     displayBrushSize();
+//   }
+//   else if (currentTool === 'square') {
+//     toolBools.isEraser = false;
+
+//     activeToolEl.textContent = capitalizeFirstLetter(currentTool);
+//     brushIcon.classList.add('selected-tool');
+//     eraser.classList.remove('selected-tool');
+
+//     currentColor = `#${brushColorBtn.value}`;
+//     currentSize = 10;
+//     brushSlider.value = BRUSH_DEFAULT_SIZE;
+//     displayBrushSize();
+//   }
+//   else if (tool === 'eraser') {
+//     toolBools.isEraser = true;
+//     toolBools.isBrush = false;
+//     toolBools.isSquare = false;
+
+//     activeToolEl.textContent = capitalizeFirstLetter(currentTool);
+//     tools.forEach((tool) => {
+//       if (tool.id === currentTool) {
+//         tool.classList.add('selected-tool');
+//       }
+//       else {
+//         tool.classList.remove('selected-tool');
+//       }
+//     });
+
+//     currentColor = `#${brushColorBtn.value}`;
+//     currentSize = ERASER_DEFAULT_SIZE;
+//     brushSlider.value = ERASER_DEFAULT_SIZE;
+//     displayBrushSize();
+//   }
+//   else {
+//     tools.forEach((tool) => {
+//       tool.classList.remove('selected-tool');
+//     });
+//     resetTools();
+
+//     currentColor = `#${brushColorBtn.value}`;
+//     currentSize = BRUSH_DEFAULT_SIZE;
+//     brushSlider.value = BRUSH_DEFAULT_SIZE;
+//     displayBrushSize();
+//   }
+// }

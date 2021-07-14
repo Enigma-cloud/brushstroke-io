@@ -1,23 +1,30 @@
 Project Customization Tasks:
     *Figuring how the Tool Indicator will be updated when selecting these tools:
-    - Brush
-    - Create shapes (Best way to keep track of selected btns? Package into a array of booleans?)
-    - Eraser
+        - Brush
+        - Create shapes (Best way to keep track of selected btns? Package into a array of booleans?)
+        - Eraser
 
     Changing UI:
-    x Change top-bar into a sidebar [B]
-    x Create hover side panel to place colour picker & brush slider
-    x Fix canvas height issue
-    x Implement toast notifications for bottom layer tools instead  of using the tool Indicator
-
-    CURRENTLY WORKING ON THE CSS OF THE STOOL SETTINGS:
+        x Change top-bar into a sidebar [B]
+        x Create hover side panel to place colour picker & brush slider
+        x Fix canvas height issue
+        x Implement toast notifications for bottom layer tools instead  of using the tool Indicator
         x Completed Tool Modal styling
         x Fix sizing issue (Active Tool Indicator)
         x Fix Bucket button styling issues (i.e. indicating selected button)
         x Adapt Modal Content relevant to the selected tool
+    
 
-    CURRENTLY WORKING ON THE BOTTOM LAYER TOOLS
-        x Implement Toast Notifications when bottom layer tool is executed
+
+    Creating shapes:
+        - Button that shows the side panel with shapes to choose from
+            x Create a new modal layer div to contain the different shape buttons
+            x Fix styling of shape buttons
+            x Modify UpdateSelectedTool to not show any content first then selectively activated necessary divs
+            in the conditional statements
+            - Figure event handling for drawing a straight line (use bools? use two event handles?)
+
+
 
 Ideas:
 - kleki

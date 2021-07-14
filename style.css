@@ -3,6 +3,7 @@
 :root {
   --primary-col: #465775;
   --secondary-col: #EF6F6C;
+  --tertiary-col: #56E39F;
   --button-col: #f7a4b8;
   --cultured-white: #d3d3d3;
 
@@ -35,7 +36,7 @@ p {
   white-space: pre-wrap;
 }
 
-.top-bar {
+.side-bar {
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -45,7 +46,7 @@ p {
 
   padding-left: 15px;
   height: 100%;
-  width: 88px;
+  width: 85px;
   position: fixed;
   background-color: var(--primary-col);
 
@@ -130,6 +131,7 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 
   height: 100vh;
   margin: 5px;
@@ -224,7 +226,7 @@ p {
   position: relative;
   top: 4px;
   left: -5px;
-  background-color: var(--button-col);
+  background-color: var(--secondary-col);
   border-radius: 5px;
   padding: 2.5px 8px;
   color: white;
@@ -290,6 +292,14 @@ p {
   opacity: 1;
   transform: scale(1);
 } */
+
+.shape-btn-wrap {
+  margin: 3px;
+}
+
+.shape-btn-wrap i {
+  background-color: var(--tertiary-col);
+}
 /* ======================================================================================= */
 
 /* Toast Notifications */

@@ -10,7 +10,7 @@
 </head>
 <body>
     <!-- Tool Bar -->
-    <div class="top-bar">
+    <div class="side-bar">
         <!-- Active Tool -->
         <div class="active-tool">
             <span id="active-tool" title="Active Tool">Brush</span>
@@ -19,14 +19,15 @@
         <!-- Cursor Tools -->
         <div class="brush tool">
             <i class="fas fa-brush cursor-tool" id="brush" title="Brush"></i>
-            <i class="fas fa-fill-drip cursor-tool" id="bucket" title="Background Color"></i>
+            <i class="fas fa-fill-drip cursor-tool" id="bucket" title="Fill Background"></i>
+            <i class="fas fa-shapes cursor-tool" id="shapes" title="Create Shapes"></i>
             <i class="fas fa-eraser cursor-tool" id="eraser" title="Eraser"></i>
         </div>
         
         <!-- System Tools -->
         <div class="brush tool">
             <div class="tools-header">
-                <i class="fas fa-chevron-down chevron-menu" id="chevron-menu"></i>
+                <i class="fas fa-chevron-down chevron-menu" id="chevron-menu" title="System Tools"></i>
             </div>
             <div class="brush dropdown-hide" id="system-tools" hidden>
                 <i class="fas fa-paint-roller system-tool" id="clear-canvas" title="Clear"></i>
@@ -52,18 +53,33 @@
     <!-- Tools Modal -->
     <div class="modal" id="tools-modal">
         <div class="modal-content" id="tool-settings">
+            <!-- Title -->
             <div class="modal-content-title">
                 <h2 id="setting-title">Tool Settings</h1>
             </div>
-            <div class="modal-layer">
+            <!-- Hint -->
+            <div class="modal-layer" id="setting-text-container">
                 <p id="setting-hint"></p>
             </div>
+            <!-- Shapes -->
+            <div class="modal-layer" id="shapes-container">
+                <div class="shape-btn-wrap">
+                    <i class="far fa-square" id="square" title="Square"></i>
+                </div>
+                <div class="shape-btn-wrap">
+                    <i class="far fa-circle" id="circle" title="Circle"></i>
+                </div>
+                <div class="shape-btn-wrap">
+                    <i class="fas fa-draw-polygon" id="polygon" title="Polygon"></i>
+                </div>
+            </div>
+            <!-- Color Picker -->
             <div class="modal-layer" id="color-picker">
                 <input class="jscolor" id="brush-color" value="4CFFA4">
                 <input class="jscolor" id="bucket-color" value="ffffff">
             </div>
+            <!-- Brush Size -->
             <div class="modal-layer" id="size-picker">
-                <!-- Brush Size -->
                 <span class="size" id="brush-size" title="Brush Size">10</span>
                 <input type="range" min="1" max="50" value="10" class="slider" id="brush-slider">
             </div>

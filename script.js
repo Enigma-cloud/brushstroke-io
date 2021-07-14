@@ -14,10 +14,13 @@ const brushSize = document.getElementById('brush-size');
 const brushSlider = document.getElementById('brush-slider');
 const bucketColorBtn = document.getElementById('bucket-color');
 const bucketBtn = document.getElementById('bucket');
+const shapes = document.getElementById('shapes');
 const eraser = document.getElementById('eraser');
 // Modal Content
 const modal = document.getElementById('tools-modal');
+const settingTextContainer = document.getElementById('setting-text-container');
 const settingTitle = document.getElementById('setting-title');
+const shapesContainer = document.getElementById('shapes-container');
 const settingHint = document.getElementById('setting-hint');
 const colorPicker = document.getElementById('color-picker');
 const sizePicker = document.getElementById('size-picker');
@@ -28,6 +31,7 @@ const toasts = document.getElementById('toasts');
 const shapesBtn = document.getElementById('shapes');
 const squareBtn = document.getElementById('square');
 const circleBtn = document.getElementById('circle');
+const polygonBtn = document.getElementById('polygon');
 // =======================================================================================
 const clearCanvasBtn = document.getElementById('clear-canvas');
 const saveStorageBtn = document.getElementById('save-storage');
@@ -53,8 +57,9 @@ let currentColor = '#4CFFA4';
 // =======================================================================================
 let isEraser = false;
 let isBucket = false;
-let isMouseDown = false;
+let isShapes = false;
 
+let isMouseDown = false;
 let drawnArray = [];
 
 //** Functions */
@@ -66,13 +71,16 @@ function capitalizeFirstLetter(string) {
 // Create pop-up status notifications
 function createNotification(message=null, type=null) {
   const notif = document.createElement('div');
-  notif.classList.add('toast')
+  notif.classList.add('toast');
+
+  // Add appropriate text styling
   if (type != null) {
-    notif.classList.add(type)
+    notif.classList.add(type);
   }
   notif.innerText = message ? message : "No message";
   toasts.appendChild(notif)
 
+  // Remove element after a delay
   setTimeout(() => {
       notif.remove()
   }, TOAST_REMOVE_DELAY)
@@ -91,18 +99,32 @@ function displayBrushSize() {
 
 // Update Selected Tool 
 function updateSelectedTool(tool) {
-  // Update Button & Settings Style/Content
-  if (tool === 'brush') {
-    isEraser = false;
-    isBucket = false;
+  // Reset Tool Booleans
+  isEraser = false;
+  isBucket = false;
+  isShapes = false;
+
+  // Reset Button Highlight
+  brushIcon.style.color = NEUTRAL_COLOR;
+  bucketBtn.style.color = NEUTRAL_COLOR;
+  shapes.style.color = NEUTRAL_COLOR;
+  eraser.style.color = NEUTRAL_COLOR;
   
+  // Reset Modal Content
+  settingTextContainer.style.display = 'flex';
+  shapesContainer.style.display = 'none';
+  sizePicker.style.display = 'none';
+  colorPicker.style.display = 'none';
+  brushColorBtn.style.display = 'none';
+  bucketColorBtn.style.display = 'none';
+
+  // Update Button & Settings Style/Content
+  if (tool === 'brush') { 
     activeToolEl.textContent = 'Brush';
     settingHint.textContent = 'Hint: Use the color picker & slider to change the brush color and size respectively.';
 
     brushIcon.style.color = SELECTED_COLOR;
-    eraser.style.color = NEUTRAL_COLOR;
-    bucketBtn.style.color = NEUTRAL_COLOR;
-
+  
     currentColor = `#${brushColorBtn.value}`;
     currentSize = BRUSH_DEFAULT_SIZE;
     brushSlider.value = BRUSH_DEFAULT_SIZE;
@@ -110,45 +132,49 @@ function updateSelectedTool(tool) {
     sizePicker.style.display = 'flex';
     colorPicker.style.display = 'flex';
     brushColorBtn.style.display = 'flex';
-    bucketColorBtn.style.display = 'none';
 
     displayBrushSize();
   }
+  else if (tool === 'bucket') {
+    isBucket = true;
+
+    activeToolEl.textContent = 'Bucket';
+    settingHint.textContent = 'Hint: Use the color picker to change the background color.';
+
+    bucketBtn.style.color = SELECTED_COLOR;
+
+    colorPicker.style.display = 'flex';
+    bucketColorBtn.style.display = 'flex';
+  }
+  // =======================================================================================
+  else if (tool === 'shapes') {
+    isShapes = true;
+
+    activeToolEl.textContent = 'Shapes';
+    settingHint.textContent = 'Hint: Select the shape you want draw from below';
+    settingTextContainer.style.display = 'none';
+
+    shapes.style.color = SELECTED_COLOR;
+
+    settingTextContainer.style.display = 'flex';
+    shapesContainer.style.display = 'flex';
+  }
+  // =======================================================================================
   else if (tool === 'eraser') {
     isEraser = true;
-    isBucket = false;
     
     activeToolEl.textContent = 'Eraser';
     settingHint.textContent = 'Hint: Use the slider to change the eraser size.';
 
-    brushIcon.style.color = NEUTRAL_COLOR;
     eraser.style.color = SELECTED_COLOR;
-    bucketBtn.style.color = NEUTRAL_COLOR;
 
     currentColor = bucketColor;
     currentSize = ERASER_DEFAULT_SIZE;
     brushSlider.value = ERASER_DEFAULT_SIZE;
 
     sizePicker.style.display = 'flex';
-    colorPicker.style.display = 'none';
 
     displayBrushSize();
-  }
-  else if (tool === 'bucket') {
-    isEraser = false;
-    isBucket = true;
-
-    activeToolEl.textContent = 'Bucket';
-    settingHint.textContent = 'Hint: Use the color picker to change the background color.';
-
-    brushIcon.style.color = NEUTRAL_COLOR;
-    eraser.style.color = NEUTRAL_COLOR;
-    bucketBtn.style.color = SELECTED_COLOR;
-
-    sizePicker.style.display = 'none';
-    colorPicker.style.display = 'flex';
-    brushColorBtn.style.display = 'none';
-    bucketColorBtn.style.display = 'flex';
   }
   else {
     return "Tool not found or incorrect tool id"
@@ -239,8 +265,21 @@ bucketColorBtn.addEventListener('change', () => {
 //     isSquare = true;
 //     canvas.style.cursor = 'nw-resize';
 //   }
-//   switchToBrush();
+//   updateSelectedTool('brush');
 // });
+let drawPolygon = false;
+let startPoint;
+let endPoint;
+
+polygonBtn.addEventListener('click', () => {
+  if (!drawPolygon) {
+    drawPolygon = true;
+  }
+  else {
+    drawPolygon = false;
+  }
+  console.log(drawPolygon);
+});
 // =======================================================================================
 
 /** Mouse Movement */
@@ -270,6 +309,11 @@ canvas.addEventListener('mousemove', (event) => {
     //   context.stroke();
     // }
     // =======================================================================================
+
+    // if (drawPolygon) {
+    //   context.lineTo(currentPosition.x, currentPosition.y);
+    // }
+    
     context.lineTo(currentPosition.x, currentPosition.y);
     context.stroke();
     storeDrawn(

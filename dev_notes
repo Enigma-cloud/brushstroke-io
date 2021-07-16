@@ -1,10 +1,10 @@
 Project Customization Tasks:
-    *Figuring how the Tool Indicator will be updated when selecting these tools:
+    Figuring how the Tool Indicator will be updated when selecting these tools:
         - Brush
         - Create shapes (Best way to keep track of selected btns? Package into a array of booleans?)
         - Eraser
 
-    Changing UI:
+    *Changing UI:
         x Change top-bar into a sidebar [B]
         x Create hover side panel to place colour picker & brush slider
         x Fix canvas height issue
@@ -17,7 +17,7 @@ Project Customization Tasks:
     
 
 
-    *Creating shapes:
+    Creating shapes:
         - Button that shows the side panel with shapes to choose from
             x Create a new modal layer div to contain the different shape buttons
             x Fix styling of shape buttons

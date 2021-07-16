@@ -21,7 +21,7 @@ body {
   overflow: hidden;
 }
 
-h1, h2, p {
+h1, h2, p, span {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -78,7 +78,7 @@ p {
   background-color: rgb(0, 0, 0, 0.4);
 
   top: 0;
-  left: 85px;
+  left: 0;
   z-index: 10;
   width: 100%;
   height: 100%;
@@ -104,27 +104,13 @@ p {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  position: fixed;
   background-color: var(--primary-col);
 
-  z-index: 1;
+  z-index: 10;
   height: 30%;
   width: 25%;
-  top: 150px;
-  left: -25%;
-
   margin: auto;
   padding: 5px;
-  border-radius: 0 10px 10px 0;
-  animation: slide-in-left 0.6s forwards;
-  animation-delay: 0.2s;
-}
-
-@keyframes slide-in-left {
-  100% { 
-    left: 85px;
-    z-index: 11;
-  }
 }
 
 .modal-layer {
@@ -153,6 +139,65 @@ p {
   margin: 5px;
 }
 
+#canvas-modal {
+  z-index: 100;
+}
+
+#tools-modal {
+  left: 85px;
+}
+
+#tool-settings {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  position: fixed;
+
+  top: 150px;
+  left: -25%;
+
+  border-radius: 0 10px 10px 0;
+  animation: slide-in-left 0.6s forwards;
+  animation-delay: 0.2s;
+}
+
+@keyframes slide-in-left {
+  100% { 
+    left: 85px;
+    z-index: 11;
+  }
+}
+
+#canvas-options {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+  width: 50%;
+  height: 50%;
+
+  border-radius: 5%;
+  -webkit-box-shadow: 8px 5px 16px -9px #000000; 
+  box-shadow: 8px 5px 16px -9px #000000;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  margin: 10px;
+}
+
+.icon-container i {
+  width: 100%;
+  height: 70%;
+  font-size: 5rem;
+
+  margin: 10px;
+}
 
 /* Font Awesome Icons */
 .fas,

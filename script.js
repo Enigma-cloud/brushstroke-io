@@ -17,7 +17,7 @@ const bucketBtn = document.getElementById('bucket');
 const shapes = document.getElementById('shapes');
 const eraser = document.getElementById('eraser');
 // Modal Content
-const modal = document.getElementById('tools-modal');
+const toolsModal = document.getElementById('tools-modal');
 const settingTextContainer = document.getElementById('setting-text-container');
 const settingTitle = document.getElementById('setting-title');
 const shapesContainer = document.getElementById('shapes-container');
@@ -182,9 +182,9 @@ function updateSelectedTool(tool) {
 }
 
 // Create Canvas
-function createCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+function createCanvas(width, height) {
+  canvas.width = width;
+  canvas.height = height;
   context.fillStyle = bucketColor;
   context.fillRect(0, 0, canvas.width, canvas.height);
   body.appendChild(canvas);
@@ -402,7 +402,7 @@ upperTools.forEach((tool) => {
   tool.addEventListener('click', () => {
     settingTitle.textContent = `${capitalizeFirstLetter(tool.id)} Settings`;
     updateSelectedTool(tool.id);
-    modal.classList.add('show-modal');
+    toolsModal.classList.add('show-modal');
   });
 });
 
@@ -428,8 +428,8 @@ chevronMenu.addEventListener('click', () => {
 
 
 window.addEventListener('click', (e) => {
-  if (e.target == modal) {
-    modal.classList.remove('show-modal');
+  if (e.target == toolsModal) {
+    toolsModal.classList.remove('show-modal');
 
     if (!isEraser) {
       updateSelectedTool('brush');
@@ -437,5 +437,32 @@ window.addEventListener('click', (e) => {
   }
 });
 
+// =======================================================================================
 // On Load
-createCanvas();
+const canvasModal = document.getElementById('canvas-modal');
+const canvasOptionIcons = document.querySelectorAll('.canvas-option');
+
+canvasOptionIcons.forEach((icon) => {
+  icon.addEventListener('click', () => {
+    let width;
+    let height;
+
+    if (icon.id === 'portrait') {
+      width = 500;
+      height = 1000;
+    }
+    else if (icon.id === 'landscape') {
+      width = 1000;
+      height = 500;
+    }
+    else {
+      width = window.innerWidth;
+      height = window.innerHeight;
+    }
+    canvasModal.classList.remove('show-modal');
+    createCanvas(width, height);
+  });
+})
+canvasModal.classList.add('show-modal');
+// =======================================================================================
+// createCanvas();

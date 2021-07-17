@@ -44,6 +44,8 @@ const { body } = document;
 const canvas = document.createElement('canvas');
 canvas.id = 'canvas';
 const context = canvas.getContext('2d');
+let curCanvasWidth;
+let curCanvasHeight;
 let currentSize = 10;
 let bucketColor = '#FFFFFF';
 let currentColor = '#4CFFA4';
@@ -182,9 +184,9 @@ function updateSelectedTool(tool) {
 }
 
 // Create Canvas
-function createCanvas(width, height) {
-  canvas.width = width;
-  canvas.height = height;
+function createCanvas() {
+  canvas.width = curCanvasWidth;
+  canvas.height = curCanvasHeight;
   context.fillStyle = bucketColor;
   context.fillRect(0, 0, canvas.width, canvas.height);
   body.appendChild(canvas);
@@ -368,8 +370,8 @@ saveStorageBtn.addEventListener('click', () => {
 loadStorageBtn.addEventListener('click', () => {
   if (localStorage.getItem('savedCanvas')) {
     drawnArray = JSON.parse(localStorage.savedCanvas);
-
     createNotification('Canvas Loaded', 'success');
+    restoreCanvas();
   }
   else {
     createNotification('No Saved Canvas', 'error');
@@ -441,28 +443,30 @@ window.addEventListener('click', (e) => {
 // On Load
 const canvasModal = document.getElementById('canvas-modal');
 const canvasOptionIcons = document.querySelectorAll('.canvas-option');
+const canvasModalClose = document.getElementById('close-btn');
+
+canvasModalClose.addEventListener('click', () => {
+  canvasModal.style.display = 'none';
+});
 
 canvasOptionIcons.forEach((icon) => {
   icon.addEventListener('click', () => {
-    let width;
-    let height;
-
     if (icon.id === 'portrait') {
-      width = 500;
-      height = 1000;
+      curCanvasWidth = 500;
+      curCanvasHeight = 1000;
     }
     else if (icon.id === 'landscape') {
-      width = 1000;
-      height = 500;
+      curCanvasWidth = 1000;
+      curCanvasHeight = 500;
     }
     else {
-      width = window.innerWidth;
-      height = window.innerHeight;
+      curCanvasWidth = window.innerWidth;
+      curCanvasHeight = window.innerHeight;
     }
-    canvasModal.classList.remove('show-modal');
-    createCanvas(width, height);
+    createCanvas();
+    canvasModal.style.display = 'none';
   });
 })
-canvasModal.classList.add('show-modal');
+
 // =======================================================================================
 // createCanvas();

@@ -97,13 +97,13 @@
                 <div class="bar-header">
                     <h2>Create Canvas</h2>
                 </div>
-                <div class="close-container">
+                <div class="bar-btn-container">
                     <i class="fas fa-times" id="close-btn"></i>
                 </div>
             </div>
-            <div class="modal-layer modal-body">
+            <div class="modal-layer modal-body" id="canvas-btns">
                 <div class="icon-container">
-                    <i class="fas fa-plus canvas-option" id="custom-btn" title="Create Custom Canvas"></i>
+                    <i class="fas fa-plus" id="custom-btn" title="Create Custom Canvas"></i>
                 </div>
                 <span class="vertical-divider"></span>
                 <div class="icon-container">
@@ -116,13 +116,19 @@
                 </div>
             </div>
             <div class="modal-layer modal-body" id="canvas-inputs">
-                <div class="icon-container">
-                    <i class="fas fa-arrow-left"></i>
+                <div class="bar-btn-container">
+                    <i class="fas fa-arrow-left" id="back-options"></i>
                 </div>
-                <label>Width</label>
-                <input type="number" id="">
-                <label>Height</label>
-                <input type="number" id="">
+                <h2>Specify Canvas Dimensions</h2>>
+                <div class="inputs-container">
+                    <label>Width</label>
+                    <input type="number" id="x-size">
+                    <label>Height</label>
+                    <input type="number" id="y-size">
+                    <div class="input-submit">
+                        <button id="confirm-size">Confirm</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -79,7 +79,7 @@ p {
   margin: 10px;
 }
 
-/* Modal */
+/* Tool & Canvas Modal */
 .modal {
   display: none;
   position: fixed;
@@ -202,7 +202,7 @@ p {
   flex-direction: row;
 }
 
-.close-container {
+.bar-btn-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -213,7 +213,7 @@ p {
   margin: 0;
 }
 
-.close-container i {
+.bar-btn-container i {
   width: 100%;
   margin: 0;
   padding: 0;
@@ -245,6 +245,27 @@ p {
   background-color: var(--tertiary-col);
 }
 
+.inputs-container {
+  /* display: grid; 
+  grid-auto-columns: 1fr; 
+  grid-template-columns: 50px 90px; 
+  grid-template-rows: 1fr 1fr; 
+  gap: 10px 0px; 
+  grid-template-areas: 
+    ". ."
+    ". .";  */
+
+  display: grid; 
+  grid-auto-columns: 1fr; 
+  grid-template-columns: 1fr 1fr; 
+  grid-template-rows: repeat(3, 1fr); 
+  gap: 10px 0px; 
+  grid-template-areas: 
+    ". ."
+    ". ."
+    ". ."; 
+}
+
 #canvas-modal {
   z-index: 12;
   display: flex;
@@ -274,14 +295,29 @@ p {
 }
 
 #canvas-inputs {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+  display: none; 
+  /* grid-auto-columns: 1fr; 
+  grid-template-columns: 50px 1fr; 
+  grid-template-rows: 50px 1fr; 
+  gap: 0px 0px; 
+  grid-template-areas: 
+    ". ."
+    ". .";  */
+  grid-auto-columns: 1fr; 
+  grid-template-columns: 50px 1fr; 
+  grid-template-rows: 50px 1fr; 
+  gap: 10px 0px; 
+  grid-template-areas: 
+    ". ."
+    ". ."; 
 }
+
 
 #canvas-inputs i {
   display: flex;
-  justify-content: flex-start
+  justify-content: flex-start;
+
+  font-size: 1.5rem;
 }
 
 

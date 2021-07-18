@@ -444,6 +444,19 @@ window.addEventListener('click', (e) => {
 const canvasModal = document.getElementById('canvas-modal');
 const canvasOptionIcons = document.querySelectorAll('.canvas-option');
 const canvasModalClose = document.getElementById('close-btn');
+const customCanvas = document.getElementById('custom-btn');
+const backToOptions = document.getElementById('back-options');
+const canvasBtns = document.getElementById('canvas-btns');
+const canvasInputs = document.getElementById('canvas-inputs');
+
+customCanvas.addEventListener('click', () => {
+  canvasBtns.style.display = 'none';
+  canvasInputs.style.display = 'grid';
+});
+backToOptions.addEventListener('click', () => {
+  canvasBtns.style.display = 'flex';
+  canvasInputs.style.display = 'none';
+});
 
 canvasModalClose.addEventListener('click', () => {
   canvasModal.style.display = 'none';

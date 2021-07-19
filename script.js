@@ -7,32 +7,24 @@ const SELECTED_COLOR = '#465775';
 // Tools
 const activeToolEl = document.getElementById('active-tool'); 
 const upperTools = document.querySelectorAll('.cursor-tool');
-const bottomTools = document.querySelectorAll('.system-tool');
 const brushColorBtn = document.getElementById('brush-color');
 const brushIcon = document.getElementById('brush');
 const brushSize = document.getElementById('brush-size');
 const brushSlider = document.getElementById('brush-slider');
 const bucketColorBtn = document.getElementById('bucket-color');
 const bucketBtn = document.getElementById('bucket');
-const shapes = document.getElementById('shapes');
 const eraser = document.getElementById('eraser');
 // Modal Content
 const toolsModal = document.getElementById('tools-modal');
 const settingTextContainer = document.getElementById('setting-text-container');
 const settingTitle = document.getElementById('setting-title');
-const shapesContainer = document.getElementById('shapes-container');
 const settingHint = document.getElementById('setting-hint');
 const colorPicker = document.getElementById('color-picker');
 const sizePicker = document.getElementById('size-picker');
 // Toast Notification
 const toasts = document.getElementById('toasts');
-// =======================================================================================
-// Create shapes
-const shapesBtn = document.getElementById('shapes');
-const squareBtn = document.getElementById('square');
-const circleBtn = document.getElementById('circle');
-const polygonBtn = document.getElementById('polygon');
-// =======================================================================================
+// System Tools
+const bottomTools = document.querySelectorAll('.system-tool');
 const clearCanvasBtn = document.getElementById('clear-canvas');
 const saveStorageBtn = document.getElementById('save-storage');
 const loadStorageBtn = document.getElementById('load-storage');
@@ -44,22 +36,14 @@ const { body } = document;
 const canvas = document.createElement('canvas');
 canvas.id = 'canvas';
 const context = canvas.getContext('2d');
-let curCanvasWidth;
-let curCanvasHeight;
+let curCanvasWidth = window.innerWidth;
+let curCanvasHeight = window.innerHeight;
 let currentSize = 10;
 let bucketColor = '#FFFFFF';
 let currentColor = '#4CFFA4';
-// =======================================================================================
-// Update Tool Indicator Problem
-// let toolBools = {  
-//   isBrush: false,
-//   isSquare: false,
-//   isEraser: false
-// }
-// =======================================================================================
+
 let isEraser = false;
 let isBucket = false;
-let isShapes = false;
 
 let isMouseDown = false;
 let drawnArray = [];
@@ -104,17 +88,14 @@ function updateSelectedTool(tool) {
   // Reset Tool Booleans
   isEraser = false;
   isBucket = false;
-  isShapes = false;
 
   // Reset Button Highlight
   brushIcon.style.color = NEUTRAL_COLOR;
   bucketBtn.style.color = NEUTRAL_COLOR;
-  shapes.style.color = NEUTRAL_COLOR;
   eraser.style.color = NEUTRAL_COLOR;
   
   // Reset Modal Content
   settingTextContainer.style.display = 'flex';
-  shapesContainer.style.display = 'none';
   sizePicker.style.display = 'none';
   colorPicker.style.display = 'none';
   brushColorBtn.style.display = 'none';
@@ -148,20 +129,6 @@ function updateSelectedTool(tool) {
     colorPicker.style.display = 'flex';
     bucketColorBtn.style.display = 'flex';
   }
-  // =======================================================================================
-  else if (tool === 'shapes') {
-    isShapes = true;
-
-    activeToolEl.textContent = 'Shapes';
-    settingHint.textContent = 'Hint: Select the shape you want draw from below';
-    settingTextContainer.style.display = 'none';
-
-    shapes.style.color = SELECTED_COLOR;
-
-    settingTextContainer.style.display = 'flex';
-    shapesContainer.style.display = 'flex';
-  }
-  // =======================================================================================
   else if (tool === 'eraser') {
     isEraser = true;
     
@@ -252,44 +219,13 @@ bucketColorBtn.addEventListener('change', () => {
   restoreCanvas();
 });
 
-// =======================================================================================
-/** Create Shapes 
- * IN PROGRESS
-*/
-// Square
-// SHOW UI INDICATION OF CHOSEN TOOL
-// squareBtn.addEventListener('click', () => {
-//   if (isSquare) {
-//     isSquare = false;
-//     canvas.style.cursor = 'crosshair';
-//   }
-//   else {
-//     isSquare = true;
-//     canvas.style.cursor = 'nw-resize';
-//   }
-//   updateSelectedTool('brush');
-// });
-let drawPolygon = false;
-let startPoint;
-let endPoint;
-
-polygonBtn.addEventListener('click', () => {
-  if (!drawPolygon) {
-    drawPolygon = true;
-  }
-  else {
-    drawPolygon = false;
-  }
-  console.log(drawPolygon);
-});
-// =======================================================================================
 
 /** Mouse Movement */
 // Mouse Down
 canvas.addEventListener('mousedown', (event) => {
   isMouseDown = true;
   const currentPosition = getMousePosition(event);
-  // console.log('mouse is clicked', currentPosition);
+
   context.lineWidth = currentSize;
   context.lineCap = 'round';
   context.strokeStyle = currentColor;
@@ -301,21 +237,7 @@ canvas.addEventListener('mousedown', (event) => {
 canvas.addEventListener('mousemove', (event) => {
   if (isMouseDown) {
     const currentPosition = getMousePosition(event);
-    // =======================================================================================
-    // console.log('mouse is moving', currentPosition);
-    // if (isSquare) {
-    //   context.strokeRect(currentPosition.x, currentPosition.y, currentPosition.y + 1, currentPosition.x + 1);
-    // }
-    // else {
-    //   context.lineTo(currentPosition.x, currentPosition.y);
-    //   context.stroke();
-    // }
-    // =======================================================================================
-
-    // if (drawPolygon) {
-    //   context.lineTo(currentPosition.x, currentPosition.y);
-    // }
-    
+  
     context.lineTo(currentPosition.x, currentPosition.y);
     context.stroke();
     storeDrawn(
@@ -327,7 +249,6 @@ canvas.addEventListener('mousemove', (event) => {
     );
   }
   else {
-    // Is it worth storing the undefined values in the global array?
     storeDrawn(undefined);
   }
 });
@@ -335,7 +256,6 @@ canvas.addEventListener('mousemove', (event) => {
 // Mouse Up
 canvas.addEventListener('mouseup', () => {
   isMouseDown = false;
-  // console.log('mouse is unclicked');
 });
 
 
@@ -439,47 +359,5 @@ window.addEventListener('click', (e) => {
   }
 });
 
-// =======================================================================================
 // On Load
-const canvasModal = document.getElementById('canvas-modal');
-const canvasOptionIcons = document.querySelectorAll('.canvas-option');
-const canvasModalClose = document.getElementById('close-btn');
-const customCanvas = document.getElementById('custom-btn');
-const backToOptions = document.getElementById('back-options');
-const canvasBtns = document.getElementById('canvas-btns');
-const canvasInputs = document.getElementById('canvas-inputs');
-
-customCanvas.addEventListener('click', () => {
-  canvasBtns.style.display = 'none';
-  canvasInputs.style.display = 'grid';
-});
-backToOptions.addEventListener('click', () => {
-  canvasBtns.style.display = 'flex';
-  canvasInputs.style.display = 'none';
-});
-
-canvasModalClose.addEventListener('click', () => {
-  canvasModal.style.display = 'none';
-});
-
-canvasOptionIcons.forEach((icon) => {
-  icon.addEventListener('click', () => {
-    if (icon.id === 'portrait') {
-      curCanvasWidth = 500;
-      curCanvasHeight = 1000;
-    }
-    else if (icon.id === 'landscape') {
-      curCanvasWidth = 1000;
-      curCanvasHeight = 500;
-    }
-    else {
-      curCanvasWidth = window.innerWidth;
-      curCanvasHeight = window.innerHeight;
-    }
-    createCanvas();
-    canvasModal.style.display = 'none';
-  });
-})
-
-// =======================================================================================
-// createCanvas();
+createCanvas();

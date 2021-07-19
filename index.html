@@ -20,7 +20,6 @@
         <div class="brush tool">
             <i class="fas fa-brush cursor-tool" id="brush" title="Brush"></i>
             <i class="fas fa-fill-drip cursor-tool" id="bucket" title="Fill Background"></i>
-            <i class="fas fa-shapes cursor-tool" id="shapes" title="Create Shapes"></i>
             <i class="fas fa-eraser cursor-tool" id="eraser" title="Eraser"></i>
         </div>
         
@@ -61,18 +60,6 @@
             <div class="modal-layer" id="setting-text-container">
                 <p id="setting-hint"></p>
             </div>
-            <!-- Shapes -->
-            <div class="modal-layer" id="shapes-container">
-                <div class="shape-btn-wrap">
-                    <i class="far fa-square" id="square" title="Square"></i>
-                </div>
-                <div class="shape-btn-wrap">
-                    <i class="far fa-circle" id="circle" title="Circle"></i>
-                </div>
-                <div class="shape-btn-wrap">
-                    <i class="fas fa-draw-polygon" id="polygon" title="Polygon"></i>
-                </div>
-            </div>
             <!-- Color Picker -->
             <div class="modal-layer" id="color-picker">
                 <input class="jscolor" id="brush-color" value="4CFFA4">
@@ -88,49 +75,6 @@
 
     <!-- Toast Notifications -->
     <div id="toasts">
-    </div>
-
-    <!-- Canvas Modal -->
-    <div class="modal" id="canvas-modal">
-        <div class="modal-content" id="canvas-content">
-            <div class="modal-layer modal-bar">
-                <div class="bar-header">
-                    <h2>Create Canvas</h2>
-                </div>
-                <div class="bar-btn-container">
-                    <i class="fas fa-times" id="close-btn"></i>
-                </div>
-            </div>
-            <div class="modal-layer modal-body" id="canvas-btns">
-                <div class="icon-container">
-                    <i class="fas fa-plus" id="custom-btn" title="Create Custom Canvas"></i>
-                </div>
-                <span class="vertical-divider"></span>
-                <div class="icon-container">
-                    <i class="fas fa-portrait canvas-option" id="portrait" title="Portrait"></i>
-                    <span class="icon-text">Portrait</span>
-                </div>
-                <div class="icon-container">
-                    <i class="fas fa-image canvas-option" id="landscape" title="Landscape"></i>
-                    <span class="icon-text">Landscape</span>
-                </div>
-            </div>
-            <div class="modal-layer modal-body" id="canvas-inputs">
-                <div class="bar-btn-container">
-                    <i class="fas fa-arrow-left" id="back-options"></i>
-                </div>
-                <h2>Specify Canvas Dimensions</h2>>
-                <div class="inputs-container">
-                    <label>Width</label>
-                    <input type="number" id="x-size">
-                    <label>Height</label>
-                    <input type="number" id="y-size">
-                    <div class="input-submit">
-                        <button id="confirm-size">Confirm</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- Mobile Message -->

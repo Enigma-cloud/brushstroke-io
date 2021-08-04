@@ -109,13 +109,12 @@ function updateSelectedTool(tool) {
     brushIcon.style.color = SELECTED_COLOR;
   
     currentColor = `#${brushColorBtn.value}`;
-    currentSize = BRUSH_DEFAULT_SIZE;
-    brushSlider.value = BRUSH_DEFAULT_SIZE;
+    currentSize = currentSize !== BRUSH_DEFAULT_SIZE ? currentSize : BRUSH_DEFAULT_SIZE;
 
     sizePicker.style.display = 'flex';
     colorPicker.style.display = 'flex';
     brushColorBtn.style.display = 'flex';
-
+    
     displayBrushSize();
   }
   else if (tool === 'bucket') {
@@ -138,8 +137,7 @@ function updateSelectedTool(tool) {
     eraser.style.color = SELECTED_COLOR;
 
     currentColor = bucketColor;
-    currentSize = ERASER_DEFAULT_SIZE;
-    brushSlider.value = ERASER_DEFAULT_SIZE;
+    currentSize = currentSize !== ERASER_DEFAULT_SIZE ? currentSize : ERASER_DEFAULT_SIZE;
 
     sizePicker.style.display = 'flex';
 
@@ -185,7 +183,6 @@ function storeDrawn(x, y, size, color, erase) {
     color,
     erase,
   };
-  // console.log(line);
   drawnArray.push(line);
 }
 
@@ -219,7 +216,6 @@ bucketColorBtn.addEventListener('change', () => {
   restoreCanvas();
 });
 
-
 /** Mouse Movement */
 // Mouse Down
 canvas.addEventListener('mousedown', (event) => {
@@ -237,7 +233,7 @@ canvas.addEventListener('mousedown', (event) => {
 canvas.addEventListener('mousemove', (event) => {
   if (isMouseDown) {
     const currentPosition = getMousePosition(event);
-  
+    
     context.lineTo(currentPosition.x, currentPosition.y);
     context.stroke();
     storeDrawn(
@@ -351,8 +347,11 @@ chevronMenu.addEventListener('click', () => {
 
 window.addEventListener('click', (e) => {
   if (e.target == toolsModal) {
+    // toolsModal.visibility = 'hidden'
+    // currentSize = brushSlider.value;
+    console.log(currentSize, brushSlider.value);
     toolsModal.classList.remove('show-modal');
-
+    console.log(currentSize, brushSlider.value);
     if (!isEraser) {
       updateSelectedTool('brush');
     }
